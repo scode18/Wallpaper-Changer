@@ -19,7 +19,7 @@
 
 1. Клонировать репозиторий: `git clone https://github.com/scode18/Wallpaper-Changer.git`
 2. Установить зависимости: `pip install -r requirements.txt`
-3. Запустить программу: `python main.py`
+3. Запустить программу: `python main.pyw`
 
 **Настройки:**
 
