@@ -5,7 +5,7 @@ import keyboard
 import pystray
 from PIL import Image
 import configparser
-from tkinter import Tk, Entry, Label, Button, END, filedialog
+from tkinter import Tk, Entry, Label, Button, END, filedialog, LabelFrame
 
 # Получаем путь к текущей директории
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -52,21 +52,30 @@ def on_right_click(icon, item):
 
 def show_settings_window():
     root = Tk()
-    root.title("Settings")
+    root.title("Настройки")
+    root.configure(bg="#272836")  # Основной цвет фона
     
-    label = Label(root, text="Hotkey for changing wallpaper:")
-    label.pack(pady=10)
+    # Создаем фрейм для ввода горячей клавиши
+    hotkey_frame = LabelFrame(root, text="Горячая клавиша", bg="#272836", fg="#ffffff", highlightbackground="#b383f8", highlightthickness=1)
+    hotkey_frame.pack(pady=10)
     
-    hotkey_entry = Entry(root)
+    hotkey_label = Label(hotkey_frame, text="Горячая клавиша для смены обоев:", bg="#272836", fg="#ffffff")
+    hotkey_label.pack()
+    
+    hotkey_entry = Entry(hotkey_frame, width=50, bg="#272836", fg="#ffffff", highlightbackground="#b383f8", highlightthickness=1)
     hotkey_entry.insert(0, hotkey)
-    hotkey_entry.pack(pady=10)
+    hotkey_entry.pack()
     
-    label = Label(root, text="Wallpaper folder:")
-    label.pack(pady=10)
+    # Создаем фрейм для ввода папки с обоями
+    folder_frame = LabelFrame(root, text="Папка с обоями", bg="#272836", fg="#ffffff", highlightbackground="#b383f8", highlightthickness=1)
+    folder_frame.pack(pady=10)
     
-    folder_entry = Entry(root)
+    folder_label = Label(folder_frame, text="Папка с обоями:", bg="#272836", fg="#ffffff")
+    folder_label.pack()
+    
+    folder_entry = Entry(folder_frame, width=50, bg="#272836", fg="#ffffff", highlightbackground="#b383f8", highlightthickness=1)
     folder_entry.insert(0, wallpaper_folder)
-    folder_entry.pack(pady=10)
+    folder_entry.pack()
     
     def select_folder():
         selected_folder = filedialog.askdirectory()
@@ -74,8 +83,8 @@ def show_settings_window():
             folder_entry.delete(0, END)
             folder_entry.insert(0, selected_folder)
     
-    select_folder_button = Button(root, text="Select Folder", command=select_folder)
-    select_folder_button.pack(pady=10)
+    select_folder_button = Button(folder_frame, text="Выбрать папку", command=select_folder, bg="#b383f8", fg="#ffffff", activebackground="#8bc34a", activeforeground="#ffffff")
+    select_folder_button.pack()
     
     def save_settings():
         new_hotkey = hotkey_entry.get()
@@ -97,10 +106,10 @@ def show_settings_window():
         global wallpaper_folder
         wallpaper_folder = new_wallpaper_folder
         
-        print(f"Hotkey changed to '{new_hotkey}'")
-        print(f"Wallpaper folder changed to '{new_wallpaper_folder}'")
+        print(f"Горячая клавиша изменена на '{new_hotkey}'")
+        print(f"Папка с обоями изменена на '{new_wallpaper_folder}'")
     
-    save_button = Button(root, text="Save", command=save_settings)
+    save_button = Button(root, text="Сохранить", command=save_settings, bg="#b383f8", fg="#ffffff", activebackground="#8bc34a", activeforeground="#ffffff")
     save_button.pack(pady=10)
     
     root.mainloop()
@@ -110,16 +119,16 @@ image = Image.open(os.path.join(current_dir, "icon.png"))
 icon = pystray.Icon("Wallpaper Changer", image, "Wallpaper Changer")
 icon.title = "Wallpaper Changer"
 
-change_wallpaper_item = pystray.MenuItem("Change Wallpaper", change_wallpaper)
-settings_item = pystray.MenuItem("Settings", on_right_click)
-exit_item = pystray.MenuItem("Exit", on_right_click)
+change_wallpaper_item = pystray.MenuItem("Сменить обои", change_wallpaper)
+settings_item = pystray.MenuItem("Настройки", on_right_click)
+exit_item = pystray.MenuItem("Выход", on_right_click)
 menu_items = [change_wallpaper_item, settings_item, exit_item]
 icon.menu = pystray.Menu(*menu_items)
 
 # Определяем сочетание клавиш для смены обоев
 keyboard.add_hotkey(hotkey, change_wallpaper)
 
-print(f"Press {hotkey} to change the wallpaper.")
+print(f"Нажмите {hotkey} для смены обоев.")
 
 # Запускаем иконку в трее
 icon.run_detached()
