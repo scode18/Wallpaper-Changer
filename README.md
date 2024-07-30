@@ -1,7 +1,7 @@
 # Wallpaper-Changer
 Программа для смены обоев Windows с помощью сочетания клавиш.
 
-![image](https://github.com/user-attachments/assets/f25397c1-5fac-4e9c-aee8-b4c660e1cd4e)
+![image](https://github.com/user-attachments/assets/895d201e-c9ef-4033-b651-deb587ce08db)
 
 **Функции:**
 
